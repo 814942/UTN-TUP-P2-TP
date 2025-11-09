@@ -31,7 +31,37 @@ db.driver=com.mysql.cj.jdbc.Driver
 
 ### 3️⃣ Compilar y Ejecutar
 
-#### Opción A: Con Maven (Recomendado)
+#### Opción A: Con Maven Wrapper (Recomendado - Windows)
+
+```powershell
+# Compilar el proyecto
+./mvnw.cmd clean compile
+
+# Ejecutar la aplicación con encoding UTF-8 (forma rápida)
+./ejecutar.ps1
+
+# O ejecutar directamente
+./mvnw.cmd exec:java "-Dexec.mainClass=ar.edu.uner.tpi.main.Main"
+
+# O crear un JAR ejecutable con todas las dependencias
+./mvnw.cmd clean package
+java -jar target/paciente-historia-clinica.jar
+```
+
+#### Opción A.a: Con Maven Wrapper (Linux/Mac)
+
+```bash
+# Compilar el proyecto
+./mvnw clean compile
+
+# Ejecutar la aplicación
+./mvnw exec:java -Dexec.mainClass="ar.edu.uner.tpi.main.Main"
+
+# O crear un JAR ejecutable con todas las dependencias
+./mvnw clean package
+java -jar target/paciente-historia-clinica.jar
+
+#### Opción B: Con Maven 
 
 ```bash
 cd /home/agus/Escritorio/Yo/juan-tp
@@ -45,7 +75,6 @@ mvn exec:java -Dexec.mainClass="ar.edu.uner.tpi.main.Main"
 # O crear un JAR ejecutable con todas las dependencias
 mvn clean package
 java -jar target/paciente-historia-clinica.jar
-```
 
 #### Opción B: Sin Maven (Solo Java y javac)
 

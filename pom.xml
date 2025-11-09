@@ -47,6 +47,10 @@
                 <version>3.1.1</version>
                 <configuration>
                     <mainClass>ar.edu.uner.tpi.main.Main</mainClass>
+                    <arguments>
+                        <argument>-Dfile.encoding=UTF-8</argument>
+                        <argument>-Dconsole.encoding=UTF-8</argument>
+                    </arguments>
                 </configuration>
             </plugin>
 
