@@ -21,20 +21,12 @@ public class HistoriaClinicaService implements GenericService<HistoriaClinica> {
 
     @Override
     public HistoriaClinica insertar(HistoriaClinica entidad) {
-        System.out.println("\n[DEBUG] HistoriaClinicaService.insertar - INICIO");
-        System.out.println("[DEBUG] Validando historia clínica...");
-        
         try {
             validar(entidad);
-            System.out.println("[DEBUG] Validación básica OK");
             
-            System.out.println("[DEBUG] Validando número de historia único...");
             validarNroHistoriaUnico(entidad.getNroHistoria(), null);
-            System.out.println("[DEBUG] Número de historia único OK");
             
-            System.out.println("[DEBUG] Llamando a DAO.crear...");
             HistoriaClinica resultado = dao.crear(entidad);
-            System.out.println("[DEBUG] HistoriaClinicaService.insertar - ÉXITO\n");
             return resultado;
             
         } catch (Exception e) {
@@ -123,9 +115,7 @@ public class HistoriaClinicaService implements GenericService<HistoriaClinica> {
      * CAMPOS QUE SE REEMPLAZAN (valor actual):
      * - grupoSanguineo
      */
-    public HistoriaClinica crearOActualizar(HistoriaClinica entidad) {
-        System.out.println("\n[DEBUG] HistoriaClinicaService.crearOActualizar - INICIO");
-        
+    public HistoriaClinica crearOActualizar(HistoriaClinica entidad) {        
         validar(entidad);
         Validador.validarNoNulo(entidad.getIdPaciente(), "ID del paciente");
         
@@ -134,7 +124,6 @@ public class HistoriaClinicaService implements GenericService<HistoriaClinica> {
         
         if (existente.isPresent()) {
             // Actualizar la HC existente CONCATENANDO la información
-            System.out.println("[DEBUG] Paciente ya tiene HC (ID: " + existente.get().getId() + "), concatenando nueva entrada...");
             HistoriaClinica hcExistente = existente.get();
             
             // Mantener el ID y el número de historia original
@@ -148,7 +137,6 @@ public class HistoriaClinicaService implements GenericService<HistoriaClinica> {
             // Concatenar antecedentes
             String antecedentesAcumulados = hcExistente.getAntecedentes() + separador + entidad.getAntecedentes();
             entidad.setAntecedentes(antecedentesAcumulados);
-            System.out.println("[DEBUG] Antecedentes concatenados");
             
             // Concatenar medicación (si hay nueva medicación)
             if (entidad.getMedicacionActual() != null && !entidad.getMedicacionActual().trim().isEmpty()) {
@@ -157,7 +145,6 @@ public class HistoriaClinicaService implements GenericService<HistoriaClinica> {
                     : "";
                 String medicacionAcumulada = medicacionBase + separador + entidad.getMedicacionActual();
                 entidad.setMedicacionActual(medicacionAcumulada);
-                System.out.println("[DEBUG] Medicación concatenada");
             } else {
                 // Si no hay nueva medicación, mantener la anterior
                 entidad.setMedicacionActual(hcExistente.getMedicacionActual());
@@ -166,11 +153,8 @@ public class HistoriaClinicaService implements GenericService<HistoriaClinica> {
             // Concatenar observaciones
             String observacionesAcumuladas = hcExistente.getObservaciones() + separador + entidad.getObservaciones();
             entidad.setObservaciones(observacionesAcumuladas);
-            System.out.println("[DEBUG] Observaciones concatenadas");
             
             // El grupo sanguíneo se REEMPLAZA (siempre usar el más reciente)
-            System.out.println("[DEBUG] Grupo sanguíneo actualizado: " + hcExistente.getGrupoSanguineo() 
-                + " -> " + entidad.getGrupoSanguineo());
             
             // Actualizar en la base de datos
             boolean actualizado = dao.actualizar(entidad);
@@ -178,15 +162,12 @@ public class HistoriaClinicaService implements GenericService<HistoriaClinica> {
                 throw new ValidacionException("No se pudo actualizar la historia clínica");
             }
             
-            System.out.println("[DEBUG] HC actualizada exitosamente (entrada concatenada)");
             return entidad;
             
         } else {
             // Crear nueva HC
-            System.out.println("[DEBUG] Paciente no tiene HC, creando nueva...");
             validarNroHistoriaUnico(entidad.getNroHistoria(), null);
             HistoriaClinica resultado = dao.crear(entidad);
-            System.out.println("[DEBUG] HC creada exitosamente con ID: " + resultado.getId());
             return resultado;
         }
     }
