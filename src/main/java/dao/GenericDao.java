@@ -1,4 +1,4 @@
-package ar.edu.uner.tpi.dao;
+package dao;
 
 import java.sql.Connection;
 import java.util.List;

@@ -1,4 +1,4 @@
-package ar.edu.uner.tpi.enums;
+package enums;
 
 /**
  * Enumeración que representa los grupos sanguíneos posibles

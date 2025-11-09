@@ -1,13 +1,13 @@
-package ar.edu.uner.tpi.service;
+package service;
 
-import ar.edu.uner.tpi.config.DatabaseConnection;
-import ar.edu.uner.tpi.dao.HistoriaClinicaDao;
-import ar.edu.uner.tpi.dao.PacienteDao;
-import ar.edu.uner.tpi.entities.HistoriaClinica;
-import ar.edu.uner.tpi.entities.Paciente;
-import ar.edu.uner.tpi.exceptions.DatabaseException;
-import ar.edu.uner.tpi.exceptions.ValidacionException;
-import ar.edu.uner.tpi.util.Validador;
+import config.DatabaseConnection;
+import dao.HistoriaClinicaDao;
+import dao.PacienteDao;
+import entities.HistoriaClinica;
+import entities.Paciente;
+import exceptions.DatabaseException;
+import exceptions.ValidacionException;
+import util.Validador;
 
 import java.sql.Connection;
 import java.sql.SQLException;

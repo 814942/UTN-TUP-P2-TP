@@ -1,6 +1,6 @@
-package ar.edu.uner.tpi.util;
+package util;
 
-import ar.edu.uner.tpi.exceptions.ValidacionException;
+import exceptions.ValidacionException;
 
 import java.time.LocalDate;
 import java.util.regex.Pattern;

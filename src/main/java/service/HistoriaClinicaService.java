@@ -1,9 +1,9 @@
-package ar.edu.uner.tpi.service;
+package service;
 
-import ar.edu.uner.tpi.dao.HistoriaClinicaDao;
-import ar.edu.uner.tpi.entities.HistoriaClinica;
-import ar.edu.uner.tpi.exceptions.ValidacionException;
-import ar.edu.uner.tpi.util.Validador;
+import dao.HistoriaClinicaDao;
+import entities.HistoriaClinica;
+import exceptions.ValidacionException;
+import util.Validador;
 
 import java.util.List;
 import java.util.Optional;

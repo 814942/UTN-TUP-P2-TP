@@ -40,6 +40,7 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+nbactions.xml
 
 # OS Files
 .DS_Store
@@ -48,8 +49,8 @@ Thumbs.db
 # Logs
 *.log
 
-# Database configuration (uncomment to hide credentials)
-# src/main/resources/database.properties
+# Database configuration (hide credentials)
+src/main/resources/database.properties
 
 # Temporary files
 *.tmp
