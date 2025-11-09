@@ -22,5 +22,8 @@ id_paciente INT NOT NULL unique);
 
 ALTER TABLE historiaClinica ADD CONSTRAINT fk_HC_paciente FOREIGN KEY (id_paciente) REFERENCES paciente (id), 
 ADD CONSTRAINT chk_HC_eliminado CHECK (eliminado IN (0,1));
+-- MySQL no permite usar funciones no determinísticas como CURDATE() en las restricciones CHECK. CURDATE() devuelve la fecha actual, que cambia constantemente, y MySQL requiere que las expresiones en CHECK sean determinísticas.
+-- ALTER TABLE paciente ADD CONSTRAINT chk_paciente_eliminado CHECK (eliminado IN (0,1)), 
+-- ADD CONSTRAINT chk_paciente_anio_nac CHECK (YEAR(fecha_nac) BETWEEN 1900 AND YEAR(CURDATE()));
 ALTER TABLE paciente ADD CONSTRAINT chk_paciente_eliminado CHECK (eliminado IN (0,1)), 
-ADD CONSTRAINT chk_paciente_anio_nac CHECK (YEAR(fecha_nac) BETWEEN 1900 AND YEAR(CURDATE()));
+ADD CONSTRAINT chk_paciente_anio_nac CHECK (YEAR(fecha_nac) >= 1900);
