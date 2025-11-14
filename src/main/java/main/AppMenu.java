@@ -61,17 +61,17 @@ public class AppMenu {
     }
 
     private void mostrarMenuPrincipal() {
-        System.out.println("\n╔════════════════════════════════════════════════════════════════╗");
-        System.out.println("║  SISTEMA DE GESTIÓN DE PACIENTES E HISTORIAS CLÍNICAS         ║");
-        System.out.println("╚════════════════════════════════════════════════════════════════╝");
+        System.out.println("\n╔══════════════════════════════════════════════════════════════════╗");
+        System.out.println("║  SISTEMA DE GESTIÓN DE PACIENTES E HISTORIAS CLÍNICAS  ║");
+        System.out.println("╚══════════════════════════════════════════════════════════════════╝");
         System.out.println("\n┌─ MENÚ PRINCIPAL ─────────────────────────────────────────────┐");
-        System.out.println("│                                                              │");
-        System.out.println("│  [1] Gestión de Pacientes                                    │");
-        System.out.println("│  [2] Gestión de Historias Clínicas                           │");
-        System.out.println("│  [3] Operaciones Combinadas                                  │");
-        System.out.println("│  [0] Salir                                                    │");
-        System.out.println("│                                                              │");
-        System.out.println("└──────────────────────────────────────────────────────────────┘");
+        System.out.println("│                                                       │");
+        System.out.println("│  [1] Gestión de Pacientes                             │");
+        System.out.println("│  [2] Gestión de Historias Clínicas                    │");
+        System.out.println("│  [3] Operaciones Combinadas                           │");
+        System.out.println("│  [0] Salir                                            │");
+        System.out.println("│                                                       │");
+        System.out.println("└─────────────────────────────────────────────────────────────────┘");
         System.out.print("\n➤ Seleccione una opción: ");
     }
 
@@ -96,16 +96,16 @@ public class AppMenu {
 
         while (!volver) {
             System.out.println("\n┌─ GESTIÓN DE PACIENTES ───────────────────────────────────────┐");
-            System.out.println("│                                                              │");
-            System.out.println("│  [1] Crear Paciente                                          │");
-            System.out.println("│  [2] Listar Todos los Pacientes                             │");
-            System.out.println("│  [3] Buscar Paciente por ID                                  │");
-            System.out.println("│  [4] Buscar Paciente por DNI                                 │");
-            System.out.println("│  [5] Actualizar Paciente                                     │");
-            System.out.println("│  [6] Eliminar Paciente                                       │");
-            System.out.println("│  [0] Volver al Menú Principal                                │");
-            System.out.println("│                                                              │");
-            System.out.println("└──────────────────────────────────────────────────────────────┘");
+            System.out.println("│                                                        │");
+            System.out.println("│  [1] Crear Paciente                                    │");
+            System.out.println("│  [2] Listar Todos los Pacientes                        │");
+            System.out.println("│  [3] Buscar Paciente por ID                            │");
+            System.out.println("│  [4] Buscar Paciente por DNI                           │");
+            System.out.println("│  [5] Actualizar Paciente                               │");
+            System.out.println("│  [6] Eliminar Paciente                                 │");
+            System.out.println("│  [0] Volver al Menú Principal                          │");
+            System.out.println("│                                                        │");
+            System.out.println("└──────────────────────────────────────────────────────────────────┘");
             System.out.print("\n➤ Seleccione una opción: ");
 
             String opcion = scanner.nextLine().trim().toUpperCase();
@@ -298,16 +298,16 @@ public class AppMenu {
 
         while (!volver) {
             System.out.println("\n┌─ GESTIÓN DE HISTORIAS CLÍNICAS ──────────────────────────────┐");
-            System.out.println("│                                                              │");
-            System.out.println("│  [1] Crear Historia Clínica                                  │");
-            System.out.println("│  [2] Listar Todas las Historias Clínicas                     │");
-            System.out.println("│  [3] Buscar Historia Clínica por ID                          │");
-            System.out.println("│  [4] Buscar Historia Clínica por Número                      │");
-            System.out.println("│  [5] Actualizar Historia Clínica                             │");
-            System.out.println("│  [6] Eliminar Historia Clínica                               │");
-            System.out.println("│  [0] Volver al Menú Principal                                │");
-            System.out.println("│                                                              │");
-            System.out.println("└──────────────────────────────────────────────────────────────┘");
+            System.out.println("│                                                         │");
+            System.out.println("│  [1] Crear Historia Clínica                             │");
+            System.out.println("│  [2] Listar Todas las Historias Clínicas                │");
+            System.out.println("│  [3] Buscar Historia Clínica por ID                     │");
+            System.out.println("│  [4] Buscar Historia Clínica por Número                 │");
+            System.out.println("│  [5] Actualizar Historia Clínica                        │");
+            System.out.println("│  [6] Eliminar Historia Clínica                          │");
+            System.out.println("│  [0] Volver al Menú Principal                           │");
+            System.out.println("│                                                         │");
+            System.out.println("└───────────────────────────────────────────────────────────────────┘");
             System.out.print("\n➤ Seleccione una opción: ");
 
             String opcion = scanner.nextLine().trim().toUpperCase();
@@ -560,12 +560,12 @@ public class AppMenu {
         boolean volver = false;
 
         while (!volver) {
-            System.out.println("\n┌─ OPERACIONES COMBINADAS ─────────────────────────────────────┐");
-            System.out.println("│                                                              │");
-            System.out.println("│  [1] Crear Paciente con Historia Clínica (Transacción)       │");
-            System.out.println("│  [0] Volver al Menú Principal                                │");
-            System.out.println("│                                                              │");
-            System.out.println("└──────────────────────────────────────────────────────────────┘");
+            System.out.println("\n┌─ OPERACIONES COMBINADAS ────────────────────────────────────────┐");
+            System.out.println("│                                                           │");
+            System.out.println("│  [1] Crear Paciente con Historia Clínica (Transacción)    │");
+            System.out.println("│  [0] Volver al Menú Principal                             │");
+            System.out.println("│                                                           │");
+            System.out.println("└──────────────────────────────────────────────────────────────────────┘");
             System.out.print("\n➤ Seleccione una opción: ");
 
             String opcion = scanner.nextLine().trim().toUpperCase();
