@@ -560,12 +560,14 @@ public class AppMenu {
         boolean volver = false;
 
         while (!volver) {
+
             System.out.println("\n┌─ OPERACIONES COMBINADAS ────────────────────────────────────────┐");
             System.out.println("│                                                           │");
             System.out.println("│  [1] Crear Paciente con Historia Clínica (Transacción)    │");
             System.out.println("│  [0] Volver al Menú Principal                             │");
             System.out.println("│                                                           │");
             System.out.println("└──────────────────────────────────────────────────────────────────────┘");
+
             System.out.print("\n➤ Seleccione una opción: ");
 
             String opcion = scanner.nextLine().trim().toUpperCase();
@@ -658,7 +660,7 @@ public class AppMenu {
 
     private void mostrarDetallePaciente(Paciente p) {
         System.out.println("\n╔═══════════════════════════════════════════════════════════════╗");
-        System.out.println("║                    DETALLE DEL PACIENTE                       ║");
+        System.out.println("║                    DETALLE DEL PACIENTE             ║");
         System.out.println("╚═══════════════════════════════════════════════════════════════╝");
         System.out.println("\n  ID:                  " + p.getId());
         System.out.println("  Apellido:            " + p.getApellido());
@@ -684,7 +686,7 @@ public class AppMenu {
 
     private void mostrarDetalleHistoriaClinica(HistoriaClinica hc) {
         System.out.println("\n╔═══════════════════════════════════════════════════════════════╗");
-        System.out.println("║                 DETALLE DE HISTORIA CLÍNICA                   ║");
+        System.out.println("║                 DETALLE DE HISTORIA CLÍNICA         ║");
         System.out.println("╚═══════════════════════════════════════════════════════════════╝");
         System.out.println("\n  ID:              " + hc.getId());
         System.out.println("  Nro. Historia:   " + hc.getNroHistoria());
