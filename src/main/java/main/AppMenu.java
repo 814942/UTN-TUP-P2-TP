@@ -168,14 +168,14 @@ public class AppMenu {
             return;
         }
 
-        System.out.println("┌────────────────────────────────────────────────────────────────────────────────────────┐");
-        System.out.printf("│ %-5s │ %-20s │ %-20s │ %-10s │ %-15s │ %-10s │%n",
+        System.out.println("┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────┐");
+        System.out.printf("│ %-5s │ %-20s │ %-20s │ %-10s │ %-10s │ %-12s │%n",
                 "ID", "APELLIDO", "NOMBRE", "DNI", "FECHA NAC.", "HISTORIA CLÍ");
-        System.out.println("├────────────────────────────────────────────────────────────────────────────────────────┤");
+        System.out.println("├──────────────────────────────────────────────────────────────────────────────────────────────────────────────┤");
 
         for (Paciente p : pacientes) {
             String tieneHC = (p.getHistoriaClinica() != null) ? "SÍ" : "NO";
-            System.out.printf("│ %-5d │ %-20s │ %-20s │ %-10s │ %-15s │ %-10s │%n",
+            System.out.printf("│ %-5d │ %-20s │ %-20s │ %-10s │ %-10s │ %-12s │%n",
                     p.getId(),
                     truncar(p.getApellido(), 20),
                     truncar(p.getNombre(), 20),
@@ -184,7 +184,7 @@ public class AppMenu {
                     tieneHC);
         }
 
-        System.out.println("└────────────────────────────────────────────────────────────────────────────────────────┘");
+        System.out.println("└──────────────────────────────────────────────────────────────────────────────────────────────────────────────┘");
         System.out.println("\nTotal de pacientes: " + pacientes.size());
     }
 
@@ -345,10 +345,10 @@ public class AppMenu {
             return;
         }
 
-        System.out.println("┌────────────────────────────────────────────────────────────────────┐");
+        System.out.println("┌─────────────────────────────────────────────────────────────────────────────┐");
         System.out.printf("│ %-5s │ %-20s │ %-20s │ %-10s │%n",
                 "ID", "APELLIDO", "NOMBRE", "TIENE HC");
-        System.out.println("├────────────────────────────────────────────────────────────────────┤");
+        System.out.println("├─────────────────────────────────────────────────────────────────────────────┤");
 
         for (Paciente p : pacientes) {
             String tieneHC = (p.getHistoriaClinica() != null) ? "SÍ" : "NO";
@@ -358,7 +358,7 @@ public class AppMenu {
                     truncar(p.getNombre(), 20),
                     tieneHC);
         }
-        System.out.println("└────────────────────────────────────────────────────────────────────┘\n");
+        System.out.println("└─────────────────────────────────────────────────────────────────────────────┘\n");
 
         // Solicitar ID del paciente
         System.out.print("ID del Paciente: ");
@@ -428,20 +428,20 @@ public class AppMenu {
             return;
         }
 
-        System.out.println("┌──────────────────────────────────────────────────────────────────────────┐");
-        System.out.printf("│ %-5s │ %-18s │ %-15s │ %-20s │%n",
+        System.out.println("┌──────────────────────────────────────────────────────────────────────────────────┐");
+        System.out.printf("│ %-5s │ %-18s │ %-10s │ %-25s │%n",
                 "ID", "NRO. HISTORIA", "GRUPO SANG.", "ANTECEDENTES");
-        System.out.println("├──────────────────────────────────────────────────────────────────────────┤");
+        System.out.println("├──────────────────────────────────────────────────────────────────────────────────┤");
 
         for (HistoriaClinica hc : historias) {
-            System.out.printf("│ %-5d │ %-18s │ %-15s │ %-20s │%n",
+            System.out.printf("│ %-5d │ %-18s │ %-11s │ %-25s │%n",
                     hc.getId(),
                     hc.getNroHistoria(),
                     hc.getGrupoSanguineo().getValor(),
                     truncar(hc.getAntecedentes(), 20));
         }
 
-        System.out.println("└──────────────────────────────────────────────────────────────────────────┘");
+        System.out.println("└──────────────────────────────────────────────────────────────────────────────────┘");
         System.out.println("\nTotal de historias clínicas: " + historias.size());
     }
 
