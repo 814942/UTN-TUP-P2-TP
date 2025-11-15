@@ -1,6 +1,6 @@
-package ar.edu.uner.tpi.main;
+package main;
 
-import ar.edu.uner.tpi.config.DatabaseConnection;
+import config.DatabaseConnection;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 
@@ -28,14 +28,14 @@ public class Main {
         
         try {
             if (DatabaseConnection.probarConexion()) {
-                System.out.println("✅ Conexión exitosa\n");
+                System.out.println("Conexión exitosa\n");
                 
                 // Iniciar el menú de la aplicación
                 AppMenu menu = new AppMenu();
                 menu.mostrar();
                 
             } else {
-                System.err.println("❌ Error al conectar");
+                System.err.println("Error al conectar");
                 System.err.println("\nVerifique:");
                 System.err.println("  1. MySQL está ejecutándose");
                 System.err.println("  2. La base de datos 'pacienteHistoriaClinica' existe");
@@ -44,7 +44,7 @@ public class Main {
             }
             
         } catch (Exception e) {
-            System.err.println("❌ Error fatal: " + e.getMessage());
+            System.err.println("Error fatal: " + e.getMessage());
             e.printStackTrace();
             System.exit(1);
         }

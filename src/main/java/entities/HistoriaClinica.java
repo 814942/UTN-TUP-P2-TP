@@ -1,6 +1,6 @@
-package ar.edu.uner.tpi.entities;
+package entities;
 
-import ar.edu.uner.tpi.enums.GrupoSanguineo;
+import enums.GrupoSanguineo;
 
 /**
  * Entidad que representa una Historia Clínica (Clase B en la relación 1->1)
@@ -21,8 +21,8 @@ public class HistoriaClinica {
 
     // Constructor completo
     public HistoriaClinica(Long id, boolean eliminado, String nroHistoria, 
-                          GrupoSanguineo grupoSanguineo, String antecedentes, 
-                          String medicacionActual, String observaciones, Long idPaciente) {
+        GrupoSanguineo grupoSanguineo, String antecedentes, 
+        String medicacionActual, String observaciones, Long idPaciente) {
         this.id = id;
         this.eliminado = eliminado;
         this.nroHistoria = nroHistoria;

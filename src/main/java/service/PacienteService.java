@@ -1,13 +1,13 @@
-package ar.edu.uner.tpi.service;
+package service;
 
-import ar.edu.uner.tpi.config.DatabaseConnection;
-import ar.edu.uner.tpi.dao.HistoriaClinicaDao;
-import ar.edu.uner.tpi.dao.PacienteDao;
-import ar.edu.uner.tpi.entities.HistoriaClinica;
-import ar.edu.uner.tpi.entities.Paciente;
-import ar.edu.uner.tpi.exceptions.DatabaseException;
-import ar.edu.uner.tpi.exceptions.ValidacionException;
-import ar.edu.uner.tpi.util.Validador;
+import config.DatabaseConnection;
+import dao.HistoriaClinicaDao;
+import dao.PacienteDao;
+import entities.HistoriaClinica;
+import entities.Paciente;
+import exceptions.DatabaseException;
+import exceptions.ValidacionException;
+import util.Validador;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -28,12 +28,18 @@ public class PacienteService implements GenericService<Paciente> {
         this.historiaClinicaDao = new HistoriaClinicaDao();
     }
 
-    @Override
     public Paciente insertar(Paciente entidad) {
         validar(entidad);
         validarDniUnico(entidad.getDni(), null);
+        try { // <-- AÑADIR try
         return pacienteDao.crear(entidad);
+    } catch (DatabaseException e) { // <-- CAPTURAR errores del DAO
+        // Se lanza la excepción para que el menú la muestre claramente
+        throw new DatabaseException("Error al guardar el paciente: " + e.getMessage(), e); 
     }
+    }
+        
+    
 
     /**
      * Crea un paciente junto con su historia clínica en una transacción
@@ -269,7 +275,11 @@ public class PacienteService implements GenericService<Paciente> {
 
         // Validar campos obligatorios
         Validador.validarNoVacio(paciente.getApellido(), "Apellido");
+        // ️ CORRECCIÓN: APLICAR VALIDACIÓN DE LETRAS A APELLIDO
+        Validador.validarSoloLetras(paciente.getApellido(), "Apellido");
         Validador.validarNoVacio(paciente.getNombre(), "Nombre");
+        // ️ CORRECCIÓN: APLICAR VALIDACIÓN DE LETRAS A NOMBRE
+        Validador.validarSoloLetras(paciente.getNombre(), "Nombre");
         Validador.validarDni(paciente.getDni());
         Validador.validarFechaNacimiento(paciente.getFechaNacimiento());
 

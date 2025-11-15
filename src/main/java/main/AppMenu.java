@@ -1,12 +1,12 @@
-package ar.edu.uner.tpi.main;
+package main;
 
-import ar.edu.uner.tpi.entities.HistoriaClinica;
-import ar.edu.uner.tpi.entities.Paciente;
-import ar.edu.uner.tpi.enums.GrupoSanguineo;
-import ar.edu.uner.tpi.exceptions.DatabaseException;
-import ar.edu.uner.tpi.exceptions.ValidacionException;
-import ar.edu.uner.tpi.service.HistoriaClinicaService;
-import ar.edu.uner.tpi.service.PacienteService;
+import entities.HistoriaClinica;
+import entities.Paciente;
+import enums.GrupoSanguineo;
+import exceptions.DatabaseException;
+import exceptions.ValidacionException;
+import service.HistoriaClinicaService;
+import service.PacienteService;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
@@ -45,11 +45,11 @@ public class AppMenu {
             try {
                 salir = procesarOpcionPrincipal(opcion);
             } catch (ValidacionException e) {
-                System.err.println("\n❌ Error de validación: " + e.getMessage());
+                System.err.println("\nError de validación: " + e.getMessage());
             } catch (DatabaseException e) {
-                System.err.println("\n❌ Error de base de datos: " + e.getMessage());
+                System.err.println("\nError de base de datos: " + e.getMessage());
             } catch (Exception e) {
-                System.err.println("\n❌ Error inesperado: " + e.getMessage());
+                System.err.println("\nError inesperado: " + e.getMessage());
                 e.printStackTrace();
             }
 
@@ -62,17 +62,17 @@ public class AppMenu {
     }
 
     private void mostrarMenuPrincipal() {
-        System.out.println("\n╔════════════════════════════════════════════════════════════════╗");
-        System.out.println("║  SISTEMA DE GESTIÓN DE PACIENTES E HISTORIAS CLÍNICAS         ║");
-        System.out.println("╚════════════════════════════════════════════════════════════════╝");
+        System.out.println("\n╔══════════════════════════════════════════════════════════════════╗");
+        System.out.println("║  SISTEMA DE GESTIÓN DE PACIENTES E HISTORIAS CLÍNICAS  ║");
+        System.out.println("╚══════════════════════════════════════════════════════════════════╝");
         System.out.println("\n┌─ MENÚ PRINCIPAL ─────────────────────────────────────────────┐");
-        System.out.println("│                                                              │");
-        System.out.println("│  [1] Gestión de Pacientes                                    │");
-        System.out.println("│  [2] Gestión de Historias Clínicas                           │");
-        System.out.println("│  [3] Operaciones Combinadas                                  │");
-        System.out.println("│  [0] Salir                                                    │");
-        System.out.println("│                                                              │");
-        System.out.println("└──────────────────────────────────────────────────────────────┘");
+        System.out.println("│                                                       │");
+        System.out.println("│  [1] Gestión de Pacientes                             │");
+        System.out.println("│  [2] Gestión de Historias Clínicas                    │");
+        System.out.println("│  [3] Operaciones Combinadas                           │");
+        System.out.println("│  [0] Salir                                            │");
+        System.out.println("│                                                       │");
+        System.out.println("└─────────────────────────────────────────────────────────────────┘");
         System.out.print("\n➤ Seleccione una opción: ");
     }
 
@@ -82,10 +82,10 @@ public class AppMenu {
             case "2" -> menuHistoriasClinicas();
             case "3" -> menuOperacionesCombinadas();
             case "0" -> {
-                System.out.println("\n¡Hasta luego! 👋");
+                System.out.println("\n¡Hasta luego!");
                 return true;
             }
-            default -> System.out.println("\n❌ Opción inválida. Por favor, intente nuevamente.");
+            default -> System.out.println("\nOpción inválida. Por favor, intente nuevamente.");
         }
         return false;
     }
@@ -97,16 +97,16 @@ public class AppMenu {
 
         while (!volver) {
             System.out.println("\n┌─ GESTIÓN DE PACIENTES ───────────────────────────────────────┐");
-            System.out.println("│                                                              │");
-            System.out.println("│  [1] Crear Paciente                                          │");
-            System.out.println("│  [2] Listar Todos los Pacientes                             │");
-            System.out.println("│  [3] Buscar Paciente por ID                                  │");
-            System.out.println("│  [4] Buscar Paciente por DNI                                 │");
-            System.out.println("│  [5] Actualizar Paciente                                     │");
-            System.out.println("│  [6] Eliminar Paciente                                       │");
-            System.out.println("│  [0] Volver al Menú Principal                                │");
-            System.out.println("│                                                              │");
-            System.out.println("└──────────────────────────────────────────────────────────────┘");
+            System.out.println("│                                                        │");
+            System.out.println("│  [1] Crear Paciente                                    │");
+            System.out.println("│  [2] Listar Todos los Pacientes                        │");
+            System.out.println("│  [3] Buscar Paciente por ID                            │");
+            System.out.println("│  [4] Buscar Paciente por DNI                           │");
+            System.out.println("│  [5] Actualizar Paciente                               │");
+            System.out.println("│  [6] Eliminar Paciente                                 │");
+            System.out.println("│  [0] Volver al Menú Principal                          │");
+            System.out.println("│                                                        │");
+            System.out.println("└──────────────────────────────────────────────────────────────────┘");
             System.out.print("\n➤ Seleccione una opción: ");
 
             String opcion = scanner.nextLine().trim().toUpperCase();
@@ -120,10 +120,10 @@ public class AppMenu {
                     case "5" -> actualizarPaciente();
                     case "6" -> eliminarPaciente();
                     case "0" -> volver = true;
-                    default -> System.out.println("\n❌ Opción inválida.");
+                    default -> System.out.println("\nOpción inválida.");
                 }
             } catch (Exception e) {
-                System.err.println("\n❌ Error: " + e.getMessage());
+                System.err.println("\nError: " + e.getMessage());
             }
 
             if (!volver) {
@@ -156,7 +156,7 @@ public class AppMenu {
         paciente.setEliminado(false);
 
         Paciente creado = pacienteService.insertar(paciente);
-        System.out.println("\n✅ Paciente creado exitosamente con ID: " + creado.getId());
+        System.out.println("\nPaciente creado exitosamente con ID: " + creado.getId());
     }
 
     private void listarPacientes() {
@@ -169,14 +169,14 @@ public class AppMenu {
             return;
         }
 
-        System.out.println("┌────────────────────────────────────────────────────────────────────────────────────────┐");
-        System.out.printf("│ %-5s │ %-20s │ %-20s │ %-10s │ %-15s │ %-10s │%n",
+        System.out.println("┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────┐");
+        System.out.printf("│ %-5s │ %-20s │ %-20s │ %-10s │ %-10s │ %-12s │%n",
                 "ID", "APELLIDO", "NOMBRE", "DNI", "FECHA NAC.", "HISTORIA CLÍ");
-        System.out.println("├────────────────────────────────────────────────────────────────────────────────────────┤");
+        System.out.println("├──────────────────────────────────────────────────────────────────────────────────────────────────────────────┤");
 
         for (Paciente p : pacientes) {
             String tieneHC = (p.getHistoriaClinica() != null) ? "SÍ" : "NO";
-            System.out.printf("│ %-5d │ %-20s │ %-20s │ %-10s │ %-15s │ %-10s │%n",
+            System.out.printf("│ %-5d │ %-20s │ %-20s │ %-10s │ %-10s │ %-12s │%n",
                     p.getId(),
                     truncar(p.getApellido(), 20),
                     truncar(p.getNombre(), 20),
@@ -185,7 +185,7 @@ public class AppMenu {
                     tieneHC);
         }
 
-        System.out.println("└────────────────────────────────────────────────────────────────────────────────────────┘");
+        System.out.println("└──────────────────────────────────────────────────────────────────────────────────────────────────────────────┘");
         System.out.println("\nTotal de pacientes: " + pacientes.size());
     }
 
@@ -200,7 +200,7 @@ public class AppMenu {
         if (paciente.isPresent()) {
             mostrarDetallePaciente(paciente.get());
         } else {
-            System.out.println("\n❌ No se encontró un paciente con ID: " + id);
+            System.out.println("\nNo se encontró un paciente con ID: " + id);
         }
     }
 
@@ -215,7 +215,7 @@ public class AppMenu {
         if (paciente.isPresent()) {
             mostrarDetallePaciente(paciente.get());
         } else {
-            System.out.println("\n❌ No se encontró un paciente con DNI: " + dni);
+            System.out.println("\nNo se encontró un paciente con DNI: " + dni);
         }
     }
 
@@ -228,7 +228,7 @@ public class AppMenu {
         Optional<Paciente> pacienteOpt = pacienteService.obtenerPorId(id);
 
         if (pacienteOpt.isEmpty()) {
-            System.out.println("\n❌ No se encontró un paciente con ID: " + id);
+            System.out.println("\nNo se encontró un paciente con ID: " + id);
             return;
         }
 
@@ -263,7 +263,7 @@ public class AppMenu {
         }
 
         pacienteService.actualizar(paciente);
-        System.out.println("\n✅ Paciente actualizado exitosamente.");
+        System.out.println("\nPaciente actualizado exitosamente.");
     }
 
     private void eliminarPaciente() {
@@ -275,20 +275,20 @@ public class AppMenu {
         Optional<Paciente> paciente = pacienteService.obtenerPorId(id);
 
         if (paciente.isEmpty()) {
-            System.out.println("\n❌ No se encontró un paciente con ID: " + id);
+            System.out.println("\nNo se encontró un paciente con ID: " + id);
             return;
         }
 
         mostrarDetallePaciente(paciente.get());
 
-        System.out.print("\n⚠️  ¿Está seguro que desea eliminar este paciente? (S/N): ");
+        System.out.print("\n¿Está seguro que desea eliminar este paciente? (S/N): ");
         String confirmacion = scanner.nextLine().trim().toUpperCase();
 
         if (confirmacion.equals("S")) {
             pacienteService.eliminar(id);
-            System.out.println("\n✅ Paciente eliminado exitosamente (baja lógica).");
+            System.out.println("\nPaciente eliminado exitosamente (baja lógica).");
         } else {
-            System.out.println("\n❌ Operación cancelada.");
+            System.out.println("\nOperación cancelada.");
         }
     }
 
@@ -299,16 +299,16 @@ public class AppMenu {
 
         while (!volver) {
             System.out.println("\n┌─ GESTIÓN DE HISTORIAS CLÍNICAS ──────────────────────────────┐");
-            System.out.println("│                                                              │");
-            System.out.println("│  [1] Crear Historia Clínica                                  │");
-            System.out.println("│  [2] Listar Todas las Historias Clínicas                     │");
-            System.out.println("│  [3] Buscar Historia Clínica por ID                          │");
-            System.out.println("│  [4] Buscar Historia Clínica por Número                      │");
-            System.out.println("│  [5] Actualizar Historia Clínica                             │");
-            System.out.println("│  [6] Eliminar Historia Clínica                               │");
-            System.out.println("│  [0] Volver al Menú Principal                                │");
-            System.out.println("│                                                              │");
-            System.out.println("└──────────────────────────────────────────────────────────────┘");
+            System.out.println("│                                                         │");
+            System.out.println("│  [1] Crear Historia Clínica                             │");
+            System.out.println("│  [2] Listar Todas las Historias Clínicas                │");
+            System.out.println("│  [3] Buscar Historia Clínica por ID                     │");
+            System.out.println("│  [4] Buscar Historia Clínica por Número                 │");
+            System.out.println("│  [5] Actualizar Historia Clínica                        │");
+            System.out.println("│  [6] Eliminar Historia Clínica                          │");
+            System.out.println("│  [0] Volver al Menú Principal                           │");
+            System.out.println("│                                                         │");
+            System.out.println("└───────────────────────────────────────────────────────────────────┘");
             System.out.print("\n➤ Seleccione una opción: ");
 
             String opcion = scanner.nextLine().trim().toUpperCase();
@@ -322,10 +322,10 @@ public class AppMenu {
                     case "5" -> actualizarHistoriaClinica();
                     case "6" -> eliminarHistoriaClinica();
                     case "0" -> volver = true;
-                    default -> System.out.println("\n❌ Opción inválida.");
+                    default -> System.out.println("\nOpción inválida.");
                 }
             } catch (Exception e) {
-                System.err.println("\n❌ Error: " + e.getMessage());
+                System.err.println("\nError: " + e.getMessage());
             }
 
             if (!volver) {
@@ -337,11 +337,12 @@ public class AppMenu {
     private void crearHistoriaClinica() {
         System.out.println("\n═══ CREAR NUEVA HISTORIA CLÍNICA ═══\n");
 
-        // 1. Listar pacientes disponibles
+        // Mostrar pacientes disponibles
+        System.out.println("--- PACIENTES DISPONIBLES ---\n");
         List<Paciente> pacientes = pacienteService.obtenerTodos();
         
         if (pacientes.isEmpty()) {
-            System.out.println("❌ No hay pacientes registrados. Debe crear un paciente primero.");
+            System.out.println("No hay pacientes registrados. Debe crear un paciente primero.");
             return;
         }
 
@@ -367,7 +368,7 @@ public class AppMenu {
         // Validar que el paciente existe
         Optional<Paciente> pacienteOpt = pacienteService.obtenerPorId(idPaciente);
         if (pacienteOpt.isEmpty()) {
-            System.out.println("\n❌ No existe un paciente con ID: " + idPaciente);
+            System.out.println("\n No existe un paciente con ID: " + idPaciente);
             return;
         }
         
@@ -379,7 +380,7 @@ public class AppMenu {
         
         if (esActualizacion) {
             System.out.println("\n╔════════════════════════════════════════════════════════════════╗");
-            System.out.println("║  ⚠️  PACIENTE CON HISTORIA CLÍNICA EXISTENTE                   ║");
+            System.out.println("║   PACIENTE CON HISTORIA CLÍNICA EXISTENTE                   ║");
             System.out.println("╚════════════════════════════════════════════════════════════════╝");
             System.out.println("   Número HC: " + hcExistente.get().getNroHistoria());
             System.out.println("   Grupo Sanguíneo actual: " + hcExistente.get().getGrupoSanguineo().getValor());
@@ -488,20 +489,21 @@ public class AppMenu {
             return;
         }
 
-        System.out.println("┌──────────────────────────────────────────────────────────────────────────┐");
-        System.out.printf("│ %-5s │ %-18s │ %-15s │ %-20s │%n",
-                "ID", "NRO. HISTORIA", "GRUPO SANG.", "ANTECEDENTES");
-        System.out.println("├──────────────────────────────────────────────────────────────────────────┤");
+        System.out.println("┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐");
+        System.out.printf("│ %-5s │ %-18s │ %-10s │ %-25s │ %-20s │%n",
+            "ID", "NRO. HISTORIA", "GRUPO SANG.", "ANTECEDENTES", "MEDICAMENTOS");
+        System.out.println("├────────────────────────────────────────────────────────────────────────────────────────────────────────────┤");
 
         for (HistoriaClinica hc : historias) {
-            System.out.printf("│ %-5d │ %-18s │ %-15s │ %-20s │%n",
-                    hc.getId(),
-                    hc.getNroHistoria(),
-                    hc.getGrupoSanguineo().getValor(),
-                    truncar(hc.getAntecedentes(), 20));
+            System.out.printf("│ %-5d │ %-18s │ %-11s │ %-25s │ %-20s │%n",
+            hc.getId(),
+            hc.getNroHistoria(),
+            hc.getGrupoSanguineo().getValor(),
+            truncar(hc.getAntecedentes(), 25),
+            truncar(hc.getMedicacionActual() != null ? hc.getMedicacionActual() : "N/A", 20));
         }
 
-        System.out.println("└──────────────────────────────────────────────────────────────────────────┘");
+        System.out.println("└────────────────────────────────────────────────────────────────────────────────────────────────────────────┘");
         System.out.println("\nTotal de historias clínicas: " + historias.size());
     }
 
@@ -516,7 +518,7 @@ public class AppMenu {
         if (hc.isPresent()) {
             mostrarDetalleHistoriaClinica(hc.get());
         } else {
-            System.out.println("\n❌ No se encontró una historia clínica con ID: " + id);
+            System.out.println("\nNo se encontró una historia clínica con ID: " + id);
         }
     }
 
@@ -531,7 +533,7 @@ public class AppMenu {
         if (hc.isPresent()) {
             mostrarDetalleHistoriaClinica(hc.get());
         } else {
-            System.out.println("\n❌ No se encontró una historia clínica con número: " + numero);
+            System.out.println("\nNo se encontró una historia clínica con número: " + numero);
         }
     }
 
@@ -544,7 +546,7 @@ public class AppMenu {
         Optional<HistoriaClinica> hcOpt = historiaClinicaService.obtenerPorId(id);
 
         if (hcOpt.isEmpty()) {
-            System.out.println("\n❌ No se encontró una historia clínica con ID: " + id);
+            System.out.println("\nNo se encontró una historia clínica con ID: " + id);
             return;
         }
 
@@ -554,11 +556,11 @@ public class AppMenu {
 
         System.out.println("\nIngrese los nuevos datos (presione Enter para mantener el valor actual):\n");
 
-        System.out.print("Número de Historia [" + hc.getNroHistoria() + "]: ");
-        String nroHistoria = scanner.nextLine().trim().toUpperCase();
-        if (!nroHistoria.isEmpty()) {
-            hc.setNroHistoria(nroHistoria);
-        }
+        // System.out.print("Número de Historia [" + hc.getNroHistoria() + "]: ");
+        // String nroHistoria = scanner.nextLine().trim().toUpperCase();
+        // if (!nroHistoria.isEmpty()) {
+        //     hc.setNroHistoria(nroHistoria);
+        // }
 
         System.out.print("Grupo Sanguíneo [" + hc.getGrupoSanguineo().getValor() + "]: ");
         String grupoStr = scanner.nextLine().trim().toUpperCase();
@@ -585,7 +587,7 @@ public class AppMenu {
         }
 
         historiaClinicaService.actualizar(hc);
-        System.out.println("\n✅ Historia clínica actualizada exitosamente.");
+        System.out.println("\nHistoria clínica actualizada exitosamente.");
     }
 
     private void eliminarHistoriaClinica() {
@@ -597,20 +599,20 @@ public class AppMenu {
         Optional<HistoriaClinica> hc = historiaClinicaService.obtenerPorId(id);
 
         if (hc.isEmpty()) {
-            System.out.println("\n❌ No se encontró una historia clínica con ID: " + id);
+            System.out.println("\nNo se encontró una historia clínica con ID: " + id);
             return;
         }
 
         mostrarDetalleHistoriaClinica(hc.get());
 
-        System.out.print("\n⚠️  ¿Está seguro que desea eliminar esta historia clínica? (S/N): ");
+        System.out.print("\n¿Está seguro que desea eliminar esta historia clínica? (S/N): ");
         String confirmacion = scanner.nextLine().trim().toUpperCase();
 
         if (confirmacion.equals("S")) {
             historiaClinicaService.eliminar(id);
-            System.out.println("\n✅ Historia clínica eliminada exitosamente (baja lógica).");
+            System.out.println("\nHistoria clínica eliminada exitosamente (baja lógica).");
         } else {
-            System.out.println("\n❌ Operación cancelada.");
+            System.out.println("\nOperación cancelada.");
         }
     }
 
@@ -620,13 +622,14 @@ public class AppMenu {
         boolean volver = false;
 
         while (!volver) {
-            System.out.println("\n┌─ OPERACIONES COMBINADAS ─────────────────────────────────────┐");
-            System.out.println("│                                                              │");
-            System.out.println("│  [1] Crear Paciente con Historia Clínica (Transacción)       │");
-            System.out.println("│  [2] Asociar Historia Clínica a Paciente                     │");
-            System.out.println("│  [0] Volver al Menú Principal                                │");
-            System.out.println("│                                                              │");
-            System.out.println("└──────────────────────────────────────────────────────────────┘");
+
+            System.out.println("\n┌─ OPERACIONES COMBINADAS ────────────────────────────────────────┐");
+            System.out.println("│                                                           │");
+            System.out.println("│  [1] Crear Paciente con Historia Clínica (Transacción)    │");
+            System.out.println("│  [0] Volver al Menú Principal                             │");
+            System.out.println("│                                                           │");
+            System.out.println("└──────────────────────────────────────────────────────────────────────┘");
+
             System.out.print("\n➤ Seleccione una opción: ");
 
             String opcion = scanner.nextLine().trim().toUpperCase();
@@ -634,12 +637,11 @@ public class AppMenu {
             try {
                 switch (opcion) {
                     case "1" -> crearPacienteConHistoriaClinica();
-                    case "2" -> asociarHistoriaClinicaAPaciente();
                     case "0" -> volver = true;
-                    default -> System.out.println("\n❌ Opción inválida.");
+                    default -> System.out.println("\nOpción inválida.");
                 }
             } catch (Exception e) {
-                System.err.println("\n❌ Error: " + e.getMessage());
+                System.err.println("\nError: " + e.getMessage());
             }
 
             if (!volver) {
@@ -720,7 +722,7 @@ public class AppMenu {
         Paciente creado = pacienteService.crearConHistoriaClinica(paciente, hc);
 
         System.out.println("\n╔════════════════════════════════════════════════════════════════╗");
-        System.out.println("║  ✅ PACIENTE E HISTORIA CLÍNICA CREADOS (TRANSACCIÓN)          ║");
+        System.out.println("║  PACIENTE E HISTORIA CLÍNICA CREADOS (TRANSACCIÓN)          ║");
         System.out.println("╚════════════════════════════════════════════════════════════════╝");
         System.out.println("   ID del Paciente: " + creado.getId());
         System.out.println("   Nombre: " + creado.getNombre() + " " + creado.getApellido());
@@ -728,28 +730,14 @@ public class AppMenu {
         System.out.println("\n   ID Historia Clínica: " + creado.getHistoriaClinica().getId());
         System.out.println("   Número HC: " + creado.getHistoriaClinica().getNroHistoria());
         System.out.println("   Grupo Sanguíneo: " + creado.getHistoriaClinica().getGrupoSanguineo().getValor());
-        System.out.println("\n   💡 Ambos registros fueron creados en una sola transacción atómica.");
-    }
-
-    private void asociarHistoriaClinicaAPaciente() {
-        System.out.println("\n═══ ASOCIAR HISTORIA CLÍNICA A PACIENTE ═══\n");
-
-        System.out.print("Ingrese el ID del paciente: ");
-        Long idPaciente = leerLong();
-
-        System.out.print("Ingrese el ID de la historia clínica: ");
-        Long idHistoriaClinica = leerLong();
-
-        pacienteService.asociarHistoriaClinica(idPaciente, idHistoriaClinica);
-
-        System.out.println("\n✅ Historia clínica asociada al paciente exitosamente.");
+        System.out.println("\n   Ambos registros fueron creados en una sola transacción atómica.");
     }
 
     // ==================== MÉTODOS AUXILIARES ====================
 
     private void mostrarDetallePaciente(Paciente p) {
         System.out.println("\n╔═══════════════════════════════════════════════════════════════╗");
-        System.out.println("║                    DETALLE DEL PACIENTE                       ║");
+        System.out.println("║                    DETALLE DEL PACIENTE             ║");
         System.out.println("╚═══════════════════════════════════════════════════════════════╝");
         System.out.println("\n  ID:                  " + p.getId());
         System.out.println("  Apellido:            " + p.getApellido());
@@ -775,7 +763,7 @@ public class AppMenu {
 
     private void mostrarDetalleHistoriaClinica(HistoriaClinica hc) {
         System.out.println("\n╔═══════════════════════════════════════════════════════════════╗");
-        System.out.println("║                 DETALLE DE HISTORIA CLÍNICA                   ║");
+        System.out.println("║                 DETALLE DE HISTORIA CLÍNICA         ║");
         System.out.println("╚═══════════════════════════════════════════════════════════════╝");
         System.out.println("\n  ID:              " + hc.getId());
         System.out.println("  Nro. Historia:   " + hc.getNroHistoria());

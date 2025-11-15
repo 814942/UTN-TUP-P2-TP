@@ -1,6 +1,6 @@
-package ar.edu.uner.tpi.util;
+package util;
 
-import ar.edu.uner.tpi.exceptions.ValidacionException;
+import exceptions.ValidacionException;
 
 import java.time.LocalDate;
 import java.util.regex.Pattern;
@@ -15,6 +15,8 @@ public class Validador {
     );
 
     private static final Pattern PATRON_DNI = Pattern.compile("^[0-9]{7,8}$");
+    // CORRECCIÓN 1: Nuevo patrón para validar solo letras, espacios y acentos.
+    private static final Pattern PATRON_LETRAS = Pattern.compile("^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+$");
 
     /**
      * Valida que una cadena no sea nula ni vacía
@@ -76,6 +78,18 @@ public class Validador {
             throw new ValidacionException("La fecha de nacimiento no puede ser futura");
         }
     }
+    // CORRECCIÓN 2: Nuevo método para validar nombres/apellidos
+    /**
+     * Valida que una cadena solo contenga letras, espacios y acentos.
+     */
+    public static void validarSoloLetras(String valor, String nombreCampo) {
+        if (valor != null && !valor.trim().isEmpty()) {
+            if (!PATRON_LETRAS.matcher(valor).matches()) {
+                throw new ValidacionException("El campo " + nombreCampo + " solo puede contener letras, espacios y acentos.");
+            }
+        }
+    }
+
 
     /**
      * Valida que un objeto no sea nulo
