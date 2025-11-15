@@ -1,6 +1,6 @@
-package ar.edu.uner.tpi.entities;
+package entities;
 
-import ar.edu.uner.tpi.enums.GrupoSanguineo;
+import enums.GrupoSanguineo;
 
 /**
  * Entidad que representa una Historia Clínica (Clase B en la relación 1->1)

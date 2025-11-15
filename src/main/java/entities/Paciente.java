@@ -1,4 +1,4 @@
-package ar.edu.uner.tpi.entities;
+package entities;
 
 import java.time.LocalDate;
 

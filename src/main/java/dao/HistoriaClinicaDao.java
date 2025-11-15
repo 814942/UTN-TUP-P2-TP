@@ -1,9 +1,9 @@
-package ar.edu.uner.tpi.dao;
+package dao;
 
-import ar.edu.uner.tpi.config.DatabaseConnection;
-import ar.edu.uner.tpi.entities.HistoriaClinica;
-import ar.edu.uner.tpi.enums.GrupoSanguineo;
-import ar.edu.uner.tpi.exceptions.DatabaseException;
+import config.DatabaseConnection;
+import entities.HistoriaClinica;
+import enums.GrupoSanguineo;
+import exceptions.DatabaseException;
 
 import java.sql.*;
 import java.util.ArrayList;

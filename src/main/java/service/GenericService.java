@@ -1,4 +1,4 @@
-package ar.edu.uner.tpi.service;
+package service;
 
 import java.util.List;
 import java.util.Optional;

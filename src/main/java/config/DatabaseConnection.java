@@ -1,6 +1,6 @@
-package ar.edu.uner.tpi.config;
+package config;
 
-import ar.edu.uner.tpi.exceptions.DatabaseException;
+import exceptions.DatabaseException;
 
 import java.io.IOException;
 import java.io.InputStream;

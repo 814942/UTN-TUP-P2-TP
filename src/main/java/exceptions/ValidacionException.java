@@ -1,4 +1,4 @@
-package ar.edu.uner.tpi.exceptions;
+package exceptions;
 
 /**
  * Excepción personalizada para errores de validación de datos
