@@ -8,6 +8,7 @@ import exceptions.ValidacionException;
 import service.HistoriaClinicaService;
 import service.PacienteService;
 
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -26,7 +27,7 @@ public class AppMenu {
     private final DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     public AppMenu() {
-        this.scanner = new Scanner(System.in);
+        this.scanner = new Scanner(System.in, StandardCharsets.UTF_8);
         this.pacienteService = new PacienteService();
         this.historiaClinicaService = new HistoriaClinicaService();
     }
@@ -339,83 +340,143 @@ public class AppMenu {
         // Mostrar pacientes disponibles
         System.out.println("--- PACIENTES DISPONIBLES ---\n");
         List<Paciente> pacientes = pacienteService.obtenerTodos();
-
+        
         if (pacientes.isEmpty()) {
             System.out.println("No hay pacientes registrados. Debe crear un paciente primero.");
             return;
         }
 
-        System.out.println("┌─────────────────────────────────────────────────────────────────────────────┐");
-        System.out.printf("│ %-5s │ %-20s │ %-20s │ %-10s │%n",
-                "ID", "APELLIDO", "NOMBRE", "TIENE HC");
-        System.out.println("├─────────────────────────────────────────────────────────────────────────────┤");
-
+        System.out.println("Seleccione el paciente:\n");
+        System.out.println("┌────────────────────────────────────────────────────────────────┐");
+        System.out.printf("│ %-5s │ %-20s │ %-20s │ %-12s │%n",
+                "ID", "APELLIDO", "NOMBRE", "DNI");
+        System.out.println("├────────────────────────────────────────────────────────────────┤");
+        
         for (Paciente p : pacientes) {
-            String tieneHC = (p.getHistoriaClinica() != null) ? "SÍ" : "NO";
-            System.out.printf("│ %-5d │ %-20s │ %-20s │ %-10s │%n",
+            System.out.printf("│ %-5d │ %-20s │ %-20s │ %-12s │%n",
                     p.getId(),
                     truncar(p.getApellido(), 20),
                     truncar(p.getNombre(), 20),
-                    tieneHC);
+                    p.getDni());
         }
-        System.out.println("└─────────────────────────────────────────────────────────────────────────────┘\n");
-
-        // Solicitar ID del paciente
-        System.out.print("ID del Paciente: ");
+        
+        System.out.println("└────────────────────────────────────────────────────────────────┘");
+        
+        System.out.print("\nIngrese el ID del paciente: ");
         Long idPaciente = leerLong();
-
+        
         // Validar que el paciente existe
         Optional<Paciente> pacienteOpt = pacienteService.obtenerPorId(idPaciente);
         if (pacienteOpt.isEmpty()) {
-            System.out.println("\nNo existe un paciente con ID: " + idPaciente);
+            System.out.println("\n No existe un paciente con ID: " + idPaciente);
             return;
         }
-
+        
         Paciente paciente = pacienteOpt.get();
-
-        // Validar que el paciente no tenga ya una historia clínica
-        if (paciente.getHistoriaClinica() != null) {
-            System.out.println("\nEl paciente " + paciente.getNombre() + " " + paciente.getApellido() +
-                             " ya tiene una historia clínica asociada (ID: " + paciente.getHistoriaClinica().getId() + ")");
-            return;
+        
+        // 2. Verificar si el paciente ya tiene una historia clínica
+        Optional<HistoriaClinica> hcExistente = historiaClinicaService.buscarPorIdPaciente(idPaciente);
+        boolean esActualizacion = hcExistente.isPresent();
+        
+        if (esActualizacion) {
+            System.out.println("\n╔════════════════════════════════════════════════════════════════╗");
+            System.out.println("║   PACIENTE CON HISTORIA CLÍNICA EXISTENTE                   ║");
+            System.out.println("╚════════════════════════════════════════════════════════════════╝");
+            System.out.println("   Número HC: " + hcExistente.get().getNroHistoria());
+            System.out.println("   Grupo Sanguíneo actual: " + hcExistente.get().getGrupoSanguineo().getValor());
+            System.out.println("\n   📝 IMPORTANTE: Los nuevos datos se AGREGARÁN al historial existente.");
+            System.out.println("      - Antecedentes, medicación y observaciones se concatenarán.");
+            System.out.println("      - El grupo sanguíneo se actualizará al valor más reciente.\n");
+        }
+        
+        // 3. Generar número de historia clínica automáticamente (solo para nuevas)
+        String nroHistoria;
+        if (esActualizacion) {
+            nroHistoria = hcExistente.get().getNroHistoria();
+            System.out.println("📋 Número de Historia: " + nroHistoria);
+        } else {
+            nroHistoria = generarNumeroHistoriaClinica(paciente);
+            System.out.println("\n📋 Número de Historia Generado: " + nroHistoria);
         }
 
-        // Solicitar datos de la historia clínica
-        System.out.println("\n--- DATOS DE LA HISTORIA CLÍNICA ---\n");
-
-        System.out.print("Número de Historia: ");
-        String nroHistoria = scanner.nextLine().trim().toUpperCase();
-
+        // 4. Solicitar grupo sanguíneo
+        System.out.println("\n" + (esActualizacion ? "┌─ NUEVA ENTRADA EN HISTORIA CLÍNICA ─────────────────────────┐" : ""));
         System.out.println("\nGrupos Sanguíneos disponibles:");
         for (GrupoSanguineo gs : GrupoSanguineo.values()) {
             System.out.println("  - " + gs.getValor());
         }
-        System.out.print("Grupo Sanguíneo: ");
+        if (esActualizacion) {
+            System.out.print("Grupo Sanguíneo (actual: " + hcExistente.get().getGrupoSanguineo().getValor() + "): ");
+        } else {
+            System.out.print("Grupo Sanguíneo: ");
+        }
         String grupoStr = scanner.nextLine().trim().toUpperCase();
         GrupoSanguineo grupoSanguineo = GrupoSanguineo.fromString(grupoStr);
 
-        System.out.print("Antecedentes: ");
+        // 5. Solicitar datos clínicos (que se concatenarán si es actualización)
+        if (esActualizacion) {
+            System.out.println("\n💡 Los siguientes datos se AÑADIRÁN al historial existente:");
+        }
+        
+        System.out.print("\nAntecedentes (nuevos): ");
         String antecedentes = scanner.nextLine().trim();
 
-        System.out.print("Medicación Actual (opcional): ");
+        System.out.print("Medicación Actual (opcional, nuevos): ");
         String medicacion = scanner.nextLine().trim();
 
-        System.out.print("Observaciones: ");
+        System.out.print("Observaciones (nuevas): ");
         String observaciones = scanner.nextLine().trim();
 
+        // 6. Crear o actualizar la historia clínica
         HistoriaClinica hc = new HistoriaClinica();
+        hc.setIdPaciente(idPaciente);
         hc.setNroHistoria(nroHistoria);
         hc.setGrupoSanguineo(grupoSanguineo);
         hc.setAntecedentes(antecedentes);
         hc.setMedicacionActual(medicacion.isEmpty() ? null : medicacion);
         hc.setObservaciones(observaciones);
-        hc.setIdPaciente(idPaciente);
         hc.setEliminado(false);
 
-        HistoriaClinica creada = historiaClinicaService.insertar(hc);
-        System.out.println("\nHistoria clínica creada exitosamente!");
-        System.out.println("   - ID de la Historia Clínica: " + creada.getId());
-        System.out.println("   - Asociada al paciente: " + paciente.getNombre() + " " + paciente.getApellido() + " (ID: " + idPaciente + ")");
+        System.out.println("[DEBUG] Objeto HistoriaClinica creado, llamando a service.crearOActualizar...");
+        HistoriaClinica resultado = historiaClinicaService.crearOActualizar(hc);
+        
+        System.out.println("\n╔════════════════════════════════════════════════════════════════╗");
+        if (esActualizacion) {
+            System.out.println("║  ✅ NUEVA ENTRADA AGREGADA AL HISTORIAL                        ║");
+        } else {
+            System.out.println("║  ✅ HISTORIA CLÍNICA CREADA EXITOSAMENTE                       ║");
+        }
+        System.out.println("╚════════════════════════════════════════════════════════════════╝");
+        System.out.println("   ID HC: " + resultado.getId());
+        System.out.println("   Número: " + resultado.getNroHistoria());
+        System.out.println("   Paciente: " + paciente.getNombre() + " " + paciente.getApellido());
+        System.out.println("   Grupo Sanguíneo: " + resultado.getGrupoSanguineo().getValor());
+        
+        if (esActualizacion) {
+            System.out.println("\n   📋 Los nuevos datos han sido concatenados con el historial existente.");
+            System.out.println("   💡 Use 'Ver detalle' para consultar el historial completo.");
+        }
+    }
+    
+    /**
+     * Genera un número de historia clínica único basado en:
+     * Iniciales (Apellido + Nombre) + últimos 4 dígitos DNI + timestamp
+     * Ejemplo: Pablo Garay DNI 12345678 -> PG-5678-1699564832
+     */
+    private String generarNumeroHistoriaClinica(Paciente paciente) {
+        // Obtener iniciales
+        String inicialApellido = paciente.getApellido().substring(0, 1).toUpperCase();
+        String inicialNombre = paciente.getNombre().substring(0, 1).toUpperCase();
+        
+        // Obtener últimos 4 dígitos del DNI
+        String dni = paciente.getDni();
+        String ultimos4Dni = dni.length() >= 4 ? dni.substring(dni.length() - 4) : dni;
+        
+        // Obtener timestamp (en segundos para que sea más corto)
+        long timestamp = System.currentTimeMillis() / 1000;
+        
+        // Formato: IN-DDDD-TIMESTAMP
+        return String.format("%s%s-%s-%d", inicialApellido, inicialNombre, ultimos4Dni, timestamp);
     }
 
     private void listarHistoriasClinicas() {
@@ -428,20 +489,21 @@ public class AppMenu {
             return;
         }
 
-        System.out.println("┌──────────────────────────────────────────────────────────────────────────────────┐");
-        System.out.printf("│ %-5s │ %-18s │ %-10s │ %-25s │%n",
-                "ID", "NRO. HISTORIA", "GRUPO SANG.", "ANTECEDENTES");
-        System.out.println("├──────────────────────────────────────────────────────────────────────────────────┤");
+        System.out.println("┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐");
+        System.out.printf("│ %-5s │ %-18s │ %-10s │ %-25s │ %-20s │%n",
+            "ID", "NRO. HISTORIA", "GRUPO SANG.", "ANTECEDENTES", "MEDICAMENTOS");
+        System.out.println("├────────────────────────────────────────────────────────────────────────────────────────────────────────────┤");
 
         for (HistoriaClinica hc : historias) {
-            System.out.printf("│ %-5d │ %-18s │ %-11s │ %-25s │%n",
-                    hc.getId(),
-                    hc.getNroHistoria(),
-                    hc.getGrupoSanguineo().getValor(),
-                    truncar(hc.getAntecedentes(), 20));
+            System.out.printf("│ %-5d │ %-18s │ %-11s │ %-25s │ %-20s │%n",
+            hc.getId(),
+            hc.getNroHistoria(),
+            hc.getGrupoSanguineo().getValor(),
+            truncar(hc.getAntecedentes(), 25),
+            truncar(hc.getMedicacionActual() != null ? hc.getMedicacionActual() : "N/A", 20));
         }
 
-        System.out.println("└──────────────────────────────────────────────────────────────────────────────────┘");
+        System.out.println("└────────────────────────────────────────────────────────────────────────────────────────────────────────────┘");
         System.out.println("\nTotal de historias clínicas: " + historias.size());
     }
 
@@ -494,11 +556,11 @@ public class AppMenu {
 
         System.out.println("\nIngrese los nuevos datos (presione Enter para mantener el valor actual):\n");
 
-        System.out.print("Número de Historia [" + hc.getNroHistoria() + "]: ");
-        String nroHistoria = scanner.nextLine().trim().toUpperCase();
-        if (!nroHistoria.isEmpty()) {
-            hc.setNroHistoria(nroHistoria);
-        }
+        // System.out.print("Número de Historia [" + hc.getNroHistoria() + "]: ");
+        // String nroHistoria = scanner.nextLine().trim().toUpperCase();
+        // if (!nroHistoria.isEmpty()) {
+        //     hc.setNroHistoria(nroHistoria);
+        // }
 
         System.out.print("Grupo Sanguíneo [" + hc.getGrupoSanguineo().getValor() + "]: ");
         String grupoStr = scanner.nextLine().trim().toUpperCase();
@@ -609,11 +671,19 @@ public class AppMenu {
         String fechaStr = scanner.nextLine().trim();
         LocalDate fechaNacimiento = parsearFecha(fechaStr);
 
+        // Crear objeto Paciente temporal para generar el número de HC
+        Paciente pacienteTemp = new Paciente();
+        pacienteTemp.setApellido(apellido);
+        pacienteTemp.setNombre(nombre);
+        pacienteTemp.setDni(dni);
+        pacienteTemp.setFechaNacimiento(fechaNacimiento);
+
         // Datos de la historia clínica
         System.out.println("\n--- DATOS DE LA HISTORIA CLÍNICA ---\n");
 
-        System.out.print("Número de Historia: ");
-        String nroHistoria = scanner.nextLine().trim().toUpperCase();
+        // Generar número de historia clínica automáticamente
+        String nroHistoria = generarNumeroHistoriaClinica(pacienteTemp);
+        System.out.println("📋 Número de Historia Generado: " + nroHistoria);
 
         System.out.println("\nGrupos Sanguíneos disponibles:");
         for (GrupoSanguineo gs : GrupoSanguineo.values()) {
@@ -632,7 +702,7 @@ public class AppMenu {
         System.out.print("Observaciones: ");
         String observaciones = scanner.nextLine().trim();
 
-        // Crear objetos
+        // Crear objetos finales
         Paciente paciente = new Paciente();
         paciente.setApellido(apellido);
         paciente.setNombre(nombre);
@@ -651,9 +721,16 @@ public class AppMenu {
         // Ejecutar transacción
         Paciente creado = pacienteService.crearConHistoriaClinica(paciente, hc);
 
-        System.out.println("\nPaciente e Historia Clínica creados exitosamente en una transacción!");
-        System.out.println("   - ID del Paciente: " + creado.getId());
-        System.out.println("   - ID de la Historia Clínica: " + creado.getHistoriaClinica().getId());
+        System.out.println("\n╔════════════════════════════════════════════════════════════════╗");
+        System.out.println("║  PACIENTE E HISTORIA CLÍNICA CREADOS (TRANSACCIÓN)          ║");
+        System.out.println("╚════════════════════════════════════════════════════════════════╝");
+        System.out.println("   ID del Paciente: " + creado.getId());
+        System.out.println("   Nombre: " + creado.getNombre() + " " + creado.getApellido());
+        System.out.println("   DNI: " + creado.getDni());
+        System.out.println("\n   ID Historia Clínica: " + creado.getHistoriaClinica().getId());
+        System.out.println("   Número HC: " + creado.getHistoriaClinica().getNroHistoria());
+        System.out.println("   Grupo Sanguíneo: " + creado.getHistoriaClinica().getGrupoSanguineo().getValor());
+        System.out.println("\n   Ambos registros fueron creados en una sola transacción atómica.");
     }
 
     // ==================== MÉTODOS AUXILIARES ====================

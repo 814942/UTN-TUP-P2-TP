@@ -1,6 +1,8 @@
 package main;
 
 import config.DatabaseConnection;
+import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 
 /**
  * Clase principal que inicia la aplicación
@@ -8,6 +10,14 @@ import config.DatabaseConnection;
 public class Main {
 
     public static void main(String[] args) {
+        // Configurar encoding UTF-8 para la consola
+        try {
+            System.setOut(new PrintStream(System.out, true, "UTF-8"));
+            System.setErr(new PrintStream(System.err, true, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            System.err.println("Error al configurar UTF-8");
+        }
+        
         System.out.println("════════════════════════════════════════════════════════════════");
         System.out.println("     Sistema de Gestión de Pacientes e Historias Clínicas");
         System.out.println("════════════════════════════════════════════════════════════════");

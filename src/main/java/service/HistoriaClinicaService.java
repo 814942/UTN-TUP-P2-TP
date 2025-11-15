@@ -21,9 +21,21 @@ public class HistoriaClinicaService implements GenericService<HistoriaClinica> {
 
     @Override
     public HistoriaClinica insertar(HistoriaClinica entidad) {
-        validar(entidad);
-        validarNroHistoriaUnico(entidad.getNroHistoria(), null);
-        return dao.crear(entidad);
+        try {
+            validar(entidad);
+            
+            validarNroHistoriaUnico(entidad.getNroHistoria(), null);
+            
+            HistoriaClinica resultado = dao.crear(entidad);
+            return resultado;
+            
+        } catch (Exception e) {
+            System.err.println("[ERROR] HistoriaClinicaService.insertar - Excepción:");
+            System.err.println("  - Tipo: " + e.getClass().getName());
+            System.err.println("  - Mensaje: " + e.getMessage());
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     @Override
@@ -80,6 +92,84 @@ public class HistoriaClinicaService implements GenericService<HistoriaClinica> {
     public Optional<HistoriaClinica> buscarPorNumero(String nroHistoria) {
         Validador.validarNoVacio(nroHistoria, "Número de historia");
         return dao.buscarPorNroHistoria(nroHistoria);
+    }
+
+    /**
+     * Busca una historia clínica por ID de paciente
+     */
+    public Optional<HistoriaClinica> buscarPorIdPaciente(Long idPaciente) {
+        Validador.validarNoNulo(idPaciente, "ID del paciente");
+        return dao.buscarPorIdPaciente(idPaciente);
+    }
+
+    /**
+     * Crea o actualiza una historia clínica para un paciente.
+     * Si el paciente ya tiene una HC, CONCATENA los nuevos datos (historial acumulativo).
+     * Si no, crea una nueva HC.
+     * 
+     * CAMPOS QUE SE CONCATENAN (mantienen historial):
+     * - antecedentes
+     * - medicacionActual
+     * - observaciones
+     * 
+     * CAMPOS QUE SE REEMPLAZAN (valor actual):
+     * - grupoSanguineo
+     */
+    public HistoriaClinica crearOActualizar(HistoriaClinica entidad) {        
+        validar(entidad);
+        Validador.validarNoNulo(entidad.getIdPaciente(), "ID del paciente");
+        
+        // Buscar si ya existe una HC para este paciente
+        Optional<HistoriaClinica> existente = dao.buscarPorIdPaciente(entidad.getIdPaciente());
+        
+        if (existente.isPresent()) {
+            // Actualizar la HC existente CONCATENANDO la información
+            HistoriaClinica hcExistente = existente.get();
+            
+            // Mantener el ID y el número de historia original
+            entidad.setId(hcExistente.getId());
+            entidad.setNroHistoria(hcExistente.getNroHistoria());
+            
+            // CONCATENAR campos históricos con separador de fecha/hora
+            String separador = "\n\n--- ENTRADA: " + java.time.LocalDateTime.now().format(
+                java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) + " ---\n";
+            
+            // Concatenar antecedentes
+            String antecedentesAcumulados = hcExistente.getAntecedentes() + separador + entidad.getAntecedentes();
+            entidad.setAntecedentes(antecedentesAcumulados);
+            
+            // Concatenar medicación (si hay nueva medicación)
+            if (entidad.getMedicacionActual() != null && !entidad.getMedicacionActual().trim().isEmpty()) {
+                String medicacionBase = (hcExistente.getMedicacionActual() != null) 
+                    ? hcExistente.getMedicacionActual() 
+                    : "";
+                String medicacionAcumulada = medicacionBase + separador + entidad.getMedicacionActual();
+                entidad.setMedicacionActual(medicacionAcumulada);
+            } else {
+                // Si no hay nueva medicación, mantener la anterior
+                entidad.setMedicacionActual(hcExistente.getMedicacionActual());
+            }
+            
+            // Concatenar observaciones
+            String observacionesAcumuladas = hcExistente.getObservaciones() + separador + entidad.getObservaciones();
+            entidad.setObservaciones(observacionesAcumuladas);
+            
+            // El grupo sanguíneo se REEMPLAZA (siempre usar el más reciente)
+            
+            // Actualizar en la base de datos
+            boolean actualizado = dao.actualizar(entidad);
+            if (!actualizado) {
+                throw new ValidacionException("No se pudo actualizar la historia clínica");
+            }
+            
+            return entidad;
+            
+        } else {
+            // Crear nueva HC
+            validarNroHistoriaUnico(entidad.getNroHistoria(), null);
+            HistoriaClinica resultado = dao.crear(entidad);
+            return resultado;
+        }
     }
 
     /**

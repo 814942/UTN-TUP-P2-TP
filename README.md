@@ -28,7 +28,7 @@ Este proyecto implementa un sistema de gestión para **Pacientes e Historias Cl�
 ## 📦 Estructura del Proyecto
 
 ```
-src/main/java/ar/edu/uner/tpi/
+src/main/java/
 ├── config/              # Configuración de base de datos
 │   └── DatabaseConnection.java
 ├── entities/            # Entidades del dominio
@@ -129,7 +129,7 @@ Crear un archivo `pom.xml` en la raíz del proyecto:
          http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>ar.edu.uner.tpi</groupId>
+    <groupId>ar.edu.UTN.tpi</groupId>
     <artifactId>paciente-historia-clinica</artifactId>
     <version>1.0-SNAPSHOT</version>
 
@@ -155,8 +155,8 @@ Crear un archivo `pom.xml` en la raíz del proyecto:
 Descargar el JAR de MySQL Connector/J y agregarlo al classpath:
 
 ```bash
-javac -cp ".:mysql-connector-j-8.3.0.jar" src/main/java/ar/edu/uner/tpi/main/Main.java
-java -cp ".:mysql-connector-j-8.3.0.jar:src/main/java" ar.edu.uner.tpi.main.Main
+javac -cp ".:mysql-connector-j-8.3.0.jar" src/main/java/main/Main.java
+java -cp ".:mysql-connector-j-8.3.0.jar:src/main/java" Main
 ```
 
 ## ▶️ Ejecución
@@ -168,7 +168,7 @@ java -cp ".:mysql-connector-j-8.3.0.jar:src/main/java" ar.edu.uner.tpi.main.Main
 mvn clean compile
 
 # Ejecutar
-mvn exec:java -Dexec.mainClass="ar.edu.uner.tpi.main.Main"
+mvn exec:java -Dexec.mainClass="Main"
 ```
 
 ### Con Java directamente
@@ -176,11 +176,11 @@ mvn exec:java -Dexec.mainClass="ar.edu.uner.tpi.main.Main"
 ```bash
 # Compilar
 cd src/main/java
-javac -d ../../../bin ar/edu/uner/tpi/**/*.java
+javac -d ../../../bin **/*.java
 
 # Ejecutar
 cd ../../../
-java -cp bin:src/main/resources ar.edu.uner.tpi.main.Main
+java -cp bin:src/main/resources Main
 ```
 
 ## 📖 Flujo de Uso
@@ -362,12 +362,12 @@ try {
 - **Oracle Java Documentation**: https://docs.oracle.com/en/java/javase/21/
 - **MySQL Reference Manual**: https://dev.mysql.com/doc/refman/8.0/en/
 - **JDBC Tutorial**: https://docs.oracle.com/javase/tutorial/jdbc/
-- **Material del curso**: Programación 2 - UNER
+- **Material del curso**: Programación 2 - UTN
 - **Asistencia de IA**: ChatGPT para consultas de sintaxis y buenas prácticas
 
 ## 📄 Licencia
 
-Este proyecto es un trabajo académico para la Tecnicatura Universitaria en Programación de la UNER.
+Este proyecto es un trabajo académico para la Tecnicatura Universitaria en Programación de la UTN.
 
 ---
 

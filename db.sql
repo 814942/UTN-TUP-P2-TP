@@ -22,7 +22,6 @@ id_paciente INT NOT NULL unique,
 CONSTRAINT fk_HC_paciente FOREIGN KEY (id_paciente) REFERENCES paciente (id),
 CONSTRAINT chk_HC_eliminado CHECK (eliminado IN (0,1)));
 
-
 DELIMITER $$
 CREATE TRIGGER trg_validar_fecha_nacimiento
 BEFORE INSERT ON paciente
