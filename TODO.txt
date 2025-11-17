@@ -1,6 +1,0 @@
-TODO
-- Dial numerico para GS en la creacion de HC
-- Confirmacion de la creacion de HC
-- Quitar actualizar el grupo sanguineo (GS)
-- Cuando hay un error de validacion de datos, en cualquier parte del menu, deberia permitir correguirlo. No cerrar y volver al menu principal
-- Tras crear la operacion combinada muestre todos los datos ingresados. Actualmente no muestra ni fecha nacimiento, observaciones, antecedentes y medicamentos
